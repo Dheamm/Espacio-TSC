@@ -1,0 +1,69 @@
+{% if is_reply %}
+<div id="post-body-{{ post.id }}">
+  <div class="flex items-center justify-between mb-1">
+    <span
+      class="text-xs font-semibold text-slate-500 bg-white px-2 py-0.5 rounded-full border border-slate-200"
+      >{{ post.alias }}</span
+    >
+    <span class="text-xs text-slate-400">{{ post.created_at }}</span>
+  </div>
+  <p class="text-sm text-slate-700 leading-relaxed break-words">
+    {{ post.content }}
+  </p>
+  {% if post.is_owner %}
+  <div class="flex gap-3 mt-1">
+    <button
+      hx-get="/foro/post/{{ post.id }}/editar"
+      hx-target="#post-body-{{ post.id }}"
+      hx-swap="outerHTML"
+      class="text-xs font-semibold text-tsc-600 hover:text-tsc-800"
+    >
+      Editar
+    </button>
+    <button
+      hx-post="/foro/post/{{ post.id }}/eliminar"
+      hx-target="#reply-wrapper-{{ post.id }}"
+      hx-swap="delete"
+      hx-confirm="¿Seguro que quieres eliminar esta respuesta?"
+      class="text-xs font-semibold text-red-500 hover:text-red-700"
+    >
+      Eliminar
+    </button>
+  </div>
+  {% endif %}
+</div>
+{% else %}
+<div class="p-5" id="post-body-{{ post.id }}">
+  <div class="flex items-center justify-between mb-3">
+    <span
+      class="text-xs font-semibold text-tsc-600 bg-tsc-50 px-2.5 py-1 rounded-full"
+      >{{ post.alias }}</span
+    >
+    <span class="text-xs text-slate-400">{{ post.created_at }}</span>
+  </div>
+  <p class="text-slate-800 text-sm leading-relaxed break-words">
+    {{ post.content }}
+  </p>
+  {% if post.is_owner %}
+  <div class="flex gap-3 mt-3">
+    <button
+      hx-get="/foro/post/{{ post.id }}/editar"
+      hx-target="#post-body-{{ post.id }}"
+      hx-swap="outerHTML"
+      class="text-xs font-semibold text-tsc-600 hover:text-tsc-800"
+    >
+      Editar
+    </button>
+    <button
+      hx-post="/foro/post/{{ post.id }}/eliminar"
+      hx-target="#thread-{{ post.id }}"
+      hx-swap="delete"
+      hx-confirm="¿Seguro que quieres eliminar esta publicación?"
+      class="text-xs font-semibold text-red-500 hover:text-red-700"
+    >
+      Eliminar
+    </button>
+  </div>
+  {% endif %}
+</div>
+{% endif %}

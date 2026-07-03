@@ -5,6 +5,7 @@ mod handlers;
 mod models;
 mod router;
 mod state;
+mod user;
 
 use std::net::SocketAddr;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};

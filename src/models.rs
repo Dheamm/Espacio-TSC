@@ -1,18 +1,48 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
+#[derive(Debug, Clone, sqlx::FromRow)]
+pub struct User {
+    pub id: String,
+    pub alias: String,
+    pub created_at: String,
+}
+
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct Post {
     pub id: i64,
+    pub user_id: String,
     pub alias: String,
     pub content: String,
     pub parent_id: Option<i64>,
     pub created_at: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PostWithReplies {
-    pub post: Post,
-    pub replies: Vec<Post>,
+#[derive(Debug, Clone)]
+pub struct PostView {
+    pub id: i64,
+    pub alias: String,
+    pub content: String,
+    pub created_at: String,
+    pub is_owner: bool,
+}
+
+impl PostView {
+    pub fn from_post(post: Post, current_user_id: &str) -> Self {
+        let is_owner = post.user_id == current_user_id;
+        Self {
+            id: post.id,
+            alias: post.alias,
+            content: post.content,
+            created_at: post.created_at,
+            is_owner,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct ThreadView {
+    pub post: PostView,
+    pub replies: Vec<PostView>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
@@ -25,9 +55,10 @@ pub struct Recurso {
     pub created_at: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct MoodCheckin {
     pub id: i64,
+    pub user_id: String,
     pub mood: String,
     pub emoji: String,
     pub created_at: String,

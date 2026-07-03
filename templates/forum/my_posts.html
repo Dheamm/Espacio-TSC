@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}Mis publicaciones - Espacio TSC{%
+endblock %} {% block content %}
+<div class="mb-6 flex items-start justify-between gap-4">
+  <div>
+    <h1 class="font-display text-3xl font-bold text-tsc-900 mb-1">
+      Mis publicaciones
+    </h1>
+    <p class="text-slate-500 text-sm">
+      Aquí puedes ver, editar o eliminar tus propias publicaciones y respuestas.
+    </p>
+  </div>
+  <a
+    href="/foro"
+    class="text-sm font-semibold text-tsc-600 hover:text-tsc-800 whitespace-nowrap pt-1"
+    >Volver al foro</a
+  >
+</div>
+
+{% if threads.is_empty() %}
+<div class="text-center py-16 text-slate-400">
+  <p class="font-medium">Aún no tienes publicaciones.</p>
+  <p class="text-sm mt-1">Cuando publiques algo en el foro, aparecerá aquí.</p>
+</div>
+{% endif %}
+
+<div id="threads-list" class="space-y-5">
+  {% for thread in threads %} {% include "forum/thread_item.html" %} {% endfor
+  %}
+</div>
+{% endblock %}

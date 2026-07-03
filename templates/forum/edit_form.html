@@ -1,0 +1,40 @@
+{% if is_reply %}
+<div id="post-body-{{ id }}">
+  {% else %}
+  <div class="p-5" id="post-body-{{ id }}">
+    {% endif %}
+    <form
+      hx-post="/foro/post/{{ id }}/editar"
+      hx-target="#post-body-{{ id }}"
+      hx-swap="outerHTML"
+      class="space-y-2"
+    >
+      <textarea
+        name="content"
+        required
+        maxlength="1000"
+        rows="3"
+        class="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-tsc-300"
+      >
+{{ content }}</textarea
+      >
+      <div class="flex gap-3">
+        <button
+          type="submit"
+          class="text-xs font-semibold text-white bg-tsc-600 hover:bg-tsc-700 px-3 py-1.5 rounded-lg transition-colors"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          hx-get="/foro/post/{{ id }}"
+          hx-target="#post-body-{{ id }}"
+          hx-swap="outerHTML"
+          class="text-xs font-semibold text-slate-500 hover:text-slate-700 px-3 py-1.5"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

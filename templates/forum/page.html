@@ -1,50 +1,65 @@
-{% extends "base.html" %}
-
-{% block title %}Foro Clínico — Espacio TSC{% endblock %}
-
-{% block content %}
-<div class="mb-6">
-    <h1 class="font-display text-3xl font-bold text-tsc-900 mb-1">Foro Clínico Anónimo</h1>
-    <p class="text-slate-500 text-sm">Todas las publicaciones son anónimas. Se te asigna un alias automáticamente.</p>
+{% extends "base.html" %} {% block title %}Foro Clínico - Espacio TSC{% endblock
+%} {% block content %}
+<div class="mb-6 flex items-start justify-between gap-4">
+  <div>
+    <h1 class="font-display text-3xl font-bold text-tsc-900 mb-1">
+      Foro Clínico Anónimo
+    </h1>
+    <p class="text-slate-500 text-sm">
+      Todas las publicaciones son anónimas. Se te asigna un alias
+      automáticamente.
+    </p>
+  </div>
+  <a
+    href="/foro/mis-publicaciones"
+    class="text-sm font-semibold text-tsc-600 hover:text-tsc-800 whitespace-nowrap pt-1"
+    >Mis publicaciones</a
+  >
 </div>
 
 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-8">
-    <h2 class="font-semibold text-slate-700 mb-4 text-sm uppercase tracking-wide">Nueva publicación</h2>
-    <form hx-post="/foro/post"
-          hx-target="#threads-list"
-          hx-swap="afterbegin"
-          hx-indicator="#post-spinner"
-          hx-on::after-request="this.reset()"
-          class="space-y-3">
-        <textarea
-            name="content"
-            required
-            maxlength="1000"
-            rows="3"
-            placeholder="Comparte algo que estés viviendo en tu práctica... (máx. 1000 caracteres)"
-            class="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-tsc-300 focus:border-transparent placeholder-slate-400"
-        ></textarea>
-        <div class="flex items-center gap-3">
-            <button type="submit"
-                    class="bg-tsc-600 hover:bg-tsc-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors shadow-sm">
-                Publicar anónimamente
-            </button>
-            <span id="post-spinner" class="htmx-indicator text-xs text-slate-400">Publicando...</span>
-        </div>
-    </form>
+  <h2 class="font-semibold text-slate-700 mb-4 text-sm uppercase tracking-wide">
+    Nueva publicación
+  </h2>
+  <form
+    hx-post="/foro/post"
+    hx-target="#threads-list"
+    hx-swap="afterbegin"
+    hx-indicator="#post-spinner"
+    hx-on::after-request="this.reset()"
+    class="space-y-3"
+  >
+    <textarea
+      name="content"
+      required
+      maxlength="1000"
+      rows="3"
+      placeholder="Comparte algo que estés viviendo en tu práctica... (máx. 1000 caracteres)"
+      class="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-tsc-300 focus:border-transparent placeholder-slate-400"
+    ></textarea>
+    <div class="flex items-center gap-3">
+      <button
+        type="submit"
+        class="bg-tsc-600 hover:bg-tsc-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors shadow-sm"
+      >
+        Publicar anónimamente
+      </button>
+      <span id="post-spinner" class="htmx-indicator text-xs text-slate-400"
+        >Publicando...</span
+      >
+    </div>
+  </form>
 </div>
 
 {% if threads.is_empty() %}
 <div class="text-center py-16 text-slate-400">
-    <div class="text-4xl mb-3">🗒️</div>
-    <p class="font-medium">Aún no hay publicaciones.</p>
-    <p class="text-sm mt-1">Sé el primero en compartir algo.</p>
+  <p class="font-medium">Aún no hay publicaciones.</p>
+  <p class="text-sm mt-1">Sé el primero en compartir algo.</p>
 </div>
 {% endif %}
 
 <div id="threads-list" class="space-y-5">
-    {% for thread in threads %}
-    {% include "forum/thread_item.html" %}
-    {% endfor %}
+  {% for thread in threads %} {% include "forum/thread_item.html" %} {% endfor
+  %}
 </div>
 {% endblock %}
