@@ -27,6 +27,7 @@ pub fn build_router(state: AppState) -> Router {
         .route("/mood/submit", post(mood::submit_mood))
         .route("/mood/historial", get(mood::history_page))
         .nest_service("/icons", ServeDir::new("static/icons"))
+        .nest_service("/js", ServeDir::new("static/js"))
         .layer(middleware::from_fn_with_state(state.clone(), resolve_user))
         .with_state(state)
 }
