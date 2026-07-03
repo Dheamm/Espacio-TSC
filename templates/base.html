@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Espacio TSC{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              tsc: {
+                50: "#f0f4ff",
+                100: "#dde6fb",
+                200: "#c3d0f7",
+                300: "#99b0f1",
+                400: "#6d89e8",
+                500: "#4a64de",
+                600: "#3448d3",
+                700: "#2c3cbf",
+                800: "#29359b",
+                900: "#27317a",
+              },
+              sage: {
+                100: "#eef3ee",
+                200: "#d8e8d8",
+                500: "#5a8a5a",
+                700: "#3a6b3a",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "system-ui", "sans-serif"],
+              display: ["Georgia", "serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <style>
+      .htmx-indicator {
+        opacity: 0;
+        transition: opacity 200ms ease-in;
+      }
+      .htmx-request .htmx-indicator {
+        opacity: 1;
+      }
+      .htmx-request.htmx-indicator {
+        opacity: 1;
+      }
+      .fade-in {
+        animation: fadeIn 0.3s ease-in;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      img.emoji {
+        height: 1.2em;
+        width: 1.2em;
+        vertical-align: -0.2em;
+        display: inline-block;
+        filter: grayscale(1) sepia(1) hue-rotate(190deg) saturate(2)
+          brightness(0.8);
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+    <header
+      class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50"
+    >
+      <nav
+        class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <a
+          href="/"
+          class="flex items-center gap-2 font-display font-bold text-tsc-700 text-xl tracking-tight"
+        >
+          <span>Espacio TSC</span>
+        </a>
+        <ul class="flex items-center gap-1 text-sm font-medium">
+          <li>
+            <a
+              href="/"
+              class="px-3 py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors"
+            >
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a
+              href="/foro"
+              class="px-3 py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors"
+            >
+              Foro Clínico
+            </a>
+          </li>
+          <li>
+            <a
+              href="/recursos"
+              class="px-3 py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors"
+            >
+              Recursos
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 mt-auto">
+      <div
+        class="max-w-5xl mx-auto px-4 py-5 text-center text-sm text-slate-500"
+      >
+        <p>
+          Espacio TSC - Apoyo para estudiantes en práctica clínica de Trabajo
+          Social
+        </p>
+        <p class="mt-1 text-xs text-slate-400">
+          Este espacio es confidencial y de uso exclusivo para estudiantes.
+        </p>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js"></script>
+    <script>
+      twemoji.parse(document.body, { folder: "svg", ext: ".svg" });
+    </script>
+  </body>
+</html>

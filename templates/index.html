@@ -1,0 +1,345 @@
+{% extends "base.html" %} {% block title %}Inicio — Espacio TSC{% endblock %} {%
+block content %}
+<section
+  class="relative text-center py-16 px-4 rounded-2xl mb-8 min-h-[500px] flex flex-col items-center justify-center bg-slate-50"
+  id="hero-section"
+>
+  <div
+    id="forum-bubbles"
+    class="absolute inset-0 rounded-2xl"
+    style="z-index: 1; pointer-events: none; overflow: hidden"
+  ></div>
+  <div class="relative" style="z-index: 3" data-bubble-block>
+    <p
+      class="text-sm font-semibold uppercase tracking-widest text-tsc-500 mb-3"
+    >
+      Para estudiantes de TS de práctica clínica
+    </p>
+    <h1
+      class="font-display text-4xl md:text-5xl font-bold text-tsc-900 leading-tight mb-4"
+    >
+      Un espacio que te<br />acompaña en la práctica
+    </h1>
+    <p class="max-w-xl mx-auto text-lg text-slate-600 mb-8">
+      Sabemos que la práctica clínica es exigente. Aquí encontrarás
+      herramientas, recursos y una comunidad que entiende lo que estás viviendo.
+    </p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a
+        href="/foro"
+        class="bg-tsc-600 hover:bg-tsc-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-sm"
+      >
+        Ir al foro clínico
+      </a>
+      <a
+        href="/recursos"
+        class="bg-white hover:bg-tsc-50 text-tsc-700 font-semibold px-6 py-3 rounded-xl border border-tsc-200 transition-colors"
+      >
+        Ver recursos
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const hero = document.getElementById("hero-section");
+    const container = document.getElementById("forum-bubbles");
+    if (!container || !hero) return;
+
+    const W = 180,
+      H = 70,
+      PAD = 12,
+      MAX = 5,
+      GAP = 8;
+    let posts = [],
+      active = [];
+
+    function rand(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    function getZones() {
+      const hRect = hero.getBoundingClientRect();
+      const tEl = hero.querySelector("[data-bubble-block]");
+      const tRect = tEl.getBoundingClientRect();
+      const textLeft = tRect.left - hRect.left;
+      const textRight = tRect.right - hRect.left;
+      const textTop = tRect.top - hRect.top;
+      const textBottom = tRect.bottom - hRect.top;
+      const cw = hRect.width;
+      const ch = hRect.height;
+      const zones = [];
+
+      if (textLeft - W - PAD > PAD)
+        zones.push({ x: [PAD, textLeft - W - PAD], y: [PAD, ch - H - PAD] });
+      if (cw - textRight - W - PAD > PAD)
+        zones.push({
+          x: [textRight + PAD, cw - W - PAD],
+          y: [PAD, ch - H - PAD],
+        });
+      if (textTop - H - PAD > PAD)
+        zones.push({ x: [PAD, cw - W - PAD], y: [PAD, textTop - H - PAD] });
+      if (ch - textBottom - H - PAD > PAD)
+        zones.push({
+          x: [PAD, cw - W - PAD],
+          y: [textBottom + PAD, ch - H - PAD],
+        });
+
+      return zones;
+    }
+
+    function overlaps(x, y) {
+      for (const e of active) {
+        if (
+          Math.abs(x - parseFloat(e.dataset.x)) < W + GAP &&
+          Math.abs(y - parseFloat(e.dataset.y)) < H + GAP
+        )
+          return true;
+      }
+      return false;
+    }
+
+    function findPos() {
+      const zones = getZones();
+      if (!zones.length) return null;
+      for (let i = 0; i < 50; i++) {
+        const z = zones[Math.floor(Math.random() * zones.length)];
+        const x = rand(z.x[0], Math.max(z.x[0], z.x[1]));
+        const y = rand(z.y[0], Math.max(z.y[0], z.y[1]));
+        if (!overlaps(x, y)) return { x, y };
+      }
+      return null;
+    }
+
+    function removeEl(el) {
+      el.remove();
+      active = active.filter((e) => e !== el);
+    }
+
+    function startTimer(el) {
+      clearTimeout(el._t);
+      el._t = setTimeout(
+        () => {
+          if (el._hover) return;
+          el.style.transition = "opacity 1.2s ease";
+          el.style.opacity = "0";
+          setTimeout(() => removeEl(el), 1200);
+        },
+        rand(4500, 8000),
+      );
+    }
+
+    function spawn() {
+      if (!posts.length || active.length >= MAX) return;
+      const pos = findPos();
+      if (!pos) return;
+
+      const p = posts[Math.floor(Math.random() * posts.length)];
+      const el = document.createElement("div");
+      el.dataset.x = pos.x;
+      el.dataset.y = pos.y;
+      Object.assign(el.style, {
+        position: "absolute",
+        left: pos.x + "px",
+        top: pos.y + "px",
+        width: W + "px",
+        opacity: "0",
+        transition: "opacity 1s ease",
+        zIndex: "2",
+        pointerEvents: "auto",
+        background: "rgba(255,255,255,0.95)",
+        border: "1px solid #c7d2fe",
+        borderRadius: "12px",
+        padding: "8px 12px",
+        boxShadow: "0 2px 8px rgba(52,72,211,0.10)",
+        cursor: "default",
+      });
+      el.innerHTML = `<div style="font-size:11px;font-weight:700;color:#3448d3;margin-bottom:3px;">${p.alias}</div><div style="font-size:11px;color:#475569;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.content}</div>`;
+
+      el.onmouseenter = () => {
+        el._hover = true;
+        clearTimeout(el._t);
+        Object.assign(el.style, {
+          transition: "opacity 0.15s ease, box-shadow 0.15s ease",
+          opacity: "1",
+          zIndex: "20",
+          boxShadow: "0 4px 20px rgba(52,72,211,0.20)",
+        });
+      };
+      el.onmouseleave = () => {
+        el._hover = false;
+        Object.assign(el.style, {
+          zIndex: "2",
+          boxShadow: "0 2px 8px rgba(52,72,211,0.10)",
+          transition: "opacity 1s ease, box-shadow 0.15s ease",
+          opacity: "0.9",
+        });
+        startTimer(el);
+      };
+
+      container.appendChild(el);
+      active.push(el);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          el.style.opacity = "0.9";
+        }),
+      );
+      startTimer(el);
+    }
+
+    function loop() {
+      spawn();
+      setTimeout(loop, rand(1000, 2500));
+    }
+
+    fetch("/foro/preview")
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (data.length) {
+          posts = data;
+          requestAnimationFrame(() => requestAnimationFrame(loop));
+        }
+      })
+      .catch(() => {});
+  })();
+</script>
+
+<div
+  id="mood-section"
+  class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-10"
+>
+  <div class="flex items-center gap-2 mb-5">
+    <h2 class="text-lg font-semibold text-slate-800">¿Cómo te sientes hoy?</h2>
+  </div>
+  <p class="text-sm text-slate-500 mb-5">
+    Registrar tu estado de ánimo es un primer paso para cuidarte. Nadie más verá
+    esta respuesta.
+  </p>
+  <form
+    hx-post="/mood/submit"
+    hx-target="#mood-section"
+    hx-swap="outerHTML"
+    hx-indicator="#mood-spinner"
+    class="space-y-4"
+  >
+    <div class="grid grid-cols-3 sm:grid-cols-6 gap-3" id="mood-options">
+      {% for option in mood_options %}
+      <label class="flex flex-col items-center gap-2 cursor-pointer">
+        <input
+          type="radio"
+          name="mood"
+          value="{{ option.value }}"
+          class="sr-only peer"
+          required
+        />
+        <div
+          class="w-full flex justify-center items-center px-2 py-4 rounded-xl border-2 border-slate-200 peer-checked:border-tsc-500 peer-checked:bg-tsc-50 hover:border-tsc-300 transition-all"
+        >
+          <img
+            src="{{ option.icon }}"
+            alt="{{ option.label }}"
+            class="w-10 h-10"
+          />
+        </div>
+        <span class="text-xs text-slate-600 text-center font-medium"
+          >{{ option.label }}</span
+        >
+      </label>
+      {% endfor %}
+    </div>
+    <div class="flex items-center gap-3 pt-1">
+      <button
+        type="submit"
+        class="bg-tsc-600 hover:bg-tsc-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors shadow-sm"
+      >
+        Registrar mi estado
+      </button>
+      <span id="mood-spinner" class="htmx-indicator text-sm text-slate-400"
+        >Guardando...</span
+      >
+    </div>
+  </form>
+</div>
+
+<section class="grid md:grid-cols-2 gap-6 mb-10">
+  <div class="bg-sage-100 rounded-2xl p-6 border border-sage-200">
+    <h2 class="font-display text-xl font-bold text-sage-700 mb-3">
+      ¿Qué somos?
+    </h2>
+    <p class="text-slate-700 leading-relaxed text-sm">
+      Espacio TSC nació de la necesidad de los propios estudiantes. La práctica
+      clínica puede ser abrumadora: casos complejos, papeleo constante, y pocas
+      instancias para descargar la carga emocional. Este espacio ofrece un punto
+      de encuentro seguro, herramientas prácticas y una comunidad anónima donde
+      puedes hablar con honestidad.
+    </p>
+  </div>
+  <div class="bg-tsc-50 rounded-2xl p-6 border border-tsc-100">
+    <h2 class="font-display text-xl font-bold text-tsc-800 mb-3">
+      Nuestros objetivos
+    </h2>
+    <ul class="space-y-2 text-sm text-slate-700">
+      <li class="flex items-start gap-2">
+        <span class="text-tsc-500 mt-0.5">-</span>
+        <span
+          >Reducir la sobrecarga burocrática con recursos accesibles y
+          organizados.</span
+        >
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-tsc-500 mt-0.5">-</span>
+        <span
+          >Ofrecer un espacio de descarga emocional anónimo y sin juicios.</span
+        >
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-tsc-500 mt-0.5">-</span>
+        <span
+          >Conectar experiencias entre pares que atraviesan los mismos
+          desafíos.</span
+        >
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-tsc-500 mt-0.5">-</span>
+        <span>Registrar el bienestar diario para promover el autocuidado.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="grid sm:grid-cols-3 gap-4">
+  <a
+    href="/foro"
+    class="bg-white rounded-xl border border-slate-200 p-5 hover:shadow-md hover:border-tsc-300 transition-all group"
+  >
+    <h3
+      class="font-semibold text-slate-800 group-hover:text-tsc-700 transition-colors"
+    >
+      Foro Clínico
+    </h3>
+    <p class="text-xs text-slate-500 mt-1">
+      Comparte dudas y experiencias de forma completamente anónima.
+    </p>
+  </a>
+  <a
+    href="/recursos"
+    class="bg-white rounded-xl border border-slate-200 p-5 hover:shadow-md hover:border-tsc-300 transition-all group"
+  >
+    <h3
+      class="font-semibold text-slate-800 group-hover:text-tsc-700 transition-colors"
+    >
+      Repositorio
+    </h3>
+    <p class="text-xs text-slate-500 mt-1">
+      Documentos, formatos y guías clínicas organizadas por categoría.
+    </p>
+  </a>
+  <div class="bg-white rounded-xl border border-slate-200 p-5">
+    <h3 class="font-semibold text-slate-800">Check-In Diario</h3>
+    <p class="text-xs text-slate-500 mt-1">
+      Registra cómo te sientes cada día. Solo tú puedes verlo.
+    </p>
+  </div>
+</section>
+{% endblock %}

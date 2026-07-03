@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block title %}Recursos — Espacio TSC{% endblock %}
+{% block content %}
+<div class="mb-6">
+  <h1 class="font-display text-3xl font-bold text-tsc-900 mb-1">
+    Repositorio de Recursos
+  </h1>
+  <p class="text-slate-500 text-sm">
+    Documentos, guías y formatos organizados por área clínica.
+  </p>
+</div>
+
+<form
+  hx-post="/recursos/buscar"
+  hx-target="#recursos-list"
+  hx-swap="innerHTML"
+  hx-trigger="change from:#category-filter, input changed delay:400ms from:#search-input"
+  hx-indicator="#search-spinner"
+  class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-6 space-y-3"
+>
+  <div class="flex gap-3">
+    <div class="flex-1 relative">
+      <input
+        id="search-input"
+        type="text"
+        name="q"
+        value="{{ query }}"
+        placeholder="Buscar por título..."
+        class="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-tsc-300 placeholder-slate-400"
+      />
+    </div>
+    <span
+      id="search-spinner"
+      class="htmx-indicator text-xs text-slate-400 self-center"
+      >Buscando...</span
+    >
+  </div>
+
+  <div class="flex flex-wrap gap-2" id="category-filter">
+    <label class="cursor-pointer">
+      <input
+        type="radio"
+        name="category"
+        value=""
+        class="sr-only peer"
+        {%
+        if
+        no_category_selected
+        %}checked{%
+        endif
+        %}
+      />
+      <span
+        class="inline-block text-xs font-medium px-3 py-1.5 rounded-full border border-slate-200 peer-checked:bg-tsc-600 peer-checked:text-white peer-checked:border-tsc-600 hover:border-tsc-400 transition-colors cursor-pointer"
+      >
+        Todos
+      </span>
+    </label>
+    {% for (cat, is_selected) in categories %}
+    <label class="cursor-pointer">
+      <input
+        type="radio"
+        name="category"
+        value="{{ cat }}"
+        class="sr-only peer"
+        {%
+        if
+        is_selected
+        %}checked{%
+        endif
+        %}
+      />
+      <span
+        class="inline-block text-xs font-medium px-3 py-1.5 rounded-full border border-slate-200 peer-checked:bg-tsc-600 peer-checked:text-white peer-checked:border-tsc-600 hover:border-tsc-400 transition-colors cursor-pointer"
+      >
+        {{ cat }}
+      </span>
+    </label>
+    {% endfor %}
+  </div>
+</form>
+
+<div id="recursos-list">{% include "resources/list_partial.html" %}</div>
+{% endblock %}
