@@ -15,6 +15,7 @@ pub struct Post {
     pub content: String,
     pub parent_id: Option<i64>,
     pub created_at: String,
+    pub edited_at: Option<String>,
 }
 
 #[derive(Debug, Clone)]
@@ -24,17 +25,21 @@ pub struct PostView {
     pub content: String,
     pub created_at: String,
     pub is_owner: bool,
+    pub is_edited: bool,
 }
 
 impl PostView {
     pub fn from_post(post: Post, current_user_id: &str) -> Self {
         let is_owner = post.user_id == current_user_id;
+        let is_edited = post.edited_at.is_some();
+
         Self {
             id: post.id,
             alias: post.alias,
             content: post.content,
             created_at: post.created_at,
             is_owner,
+            is_edited,
         }
     }
 }

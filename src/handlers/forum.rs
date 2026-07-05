@@ -86,7 +86,7 @@ fn validate_content(content: &str) -> AppResult<String> {
 
 async fn fetch_post(db: &sqlx::SqlitePool, id: i64) -> AppResult<Post> {
     let post: Option<Post> = sqlx::query_as(
-        "SELECT id, user_id, alias, content, parent_id, created_at FROM posts WHERE id = ?",
+        "SELECT id, user_id, alias, content, parent_id, created_at, edited_at FROM posts WHERE id = ?",
     )
     .bind(id)
     .fetch_optional(db)
@@ -95,9 +95,10 @@ async fn fetch_post(db: &sqlx::SqlitePool, id: i64) -> AppResult<Post> {
     post.ok_or(AppError::NotFound)
 }
 
+
 async fn fetch_all_posts(db: &sqlx::SqlitePool) -> AppResult<Vec<Post>> {
     let posts: Vec<Post> = sqlx::query_as(
-        "SELECT id, user_id, alias, content, parent_id, created_at FROM posts ORDER BY created_at ASC",
+        "SELECT id, user_id, alias, content, parent_id, created_at, edited_at FROM posts ORDER BY created_at ASC",
     )
     .fetch_all(db)
     .await?;
@@ -266,7 +267,7 @@ pub async fn edit_post(
         return Err(AppError::Forbidden);
     }
 
-    sqlx::query("UPDATE posts SET content = ? WHERE id = ?")
+    sqlx::query("UPDATE posts SET content = ?, edited_at = datetime('now') WHERE id = ?")
         .bind(&content)
         .bind(id)
         .execute(&state.db)
