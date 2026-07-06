@@ -4,12 +4,18 @@
 >
   <div id="post-body-{{ reply.id }}">
     <div class="flex items-center justify-between mb-1">
-      <span
-        class="text-xs font-semibold text-slate-500 bg-white px-2 py-0.5 rounded-full border border-slate-200"
-        >{{ reply.alias }}</span
-      >
       <span class="text-xs text-slate-400">
-        {{ reply.created_at }} {% if reply.is_edited %}· editado{% endif %}
+        {{ reply.created_at }} {% if reply.is_edited %}
+        <span class="relative inline-block group">
+          <span class="cursor-help">· editado</span>
+          <div
+            class="hidden group-hover:block absolute z-20 bottom-full right-0 mb-2 w-56 max-w-[70vw] rounded-lg bg-slate-800 text-white text-xs p-2 shadow-lg text-left"
+          >
+            Editado el {{ reply.edited_at }}. Antes decía: {{
+            reply.previous_content }}
+          </div>
+        </span>
+        {% endif %}
       </span>
     </div>
     <p class="text-sm text-slate-700 leading-relaxed break-words">

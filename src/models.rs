@@ -16,6 +16,7 @@ pub struct Post {
     pub parent_id: Option<i64>,
     pub created_at: String,
     pub edited_at: Option<String>,
+    pub previous_content: Option<String>,
 }
 
 #[derive(Debug, Clone)]
@@ -26,7 +27,10 @@ pub struct PostView {
     pub created_at: String,
     pub is_owner: bool,
     pub is_edited: bool,
+    pub edited_at: String,
+    pub previous_content: String,
 }
+
 
 impl PostView {
     pub fn from_post(post: Post, current_user_id: &str) -> Self {
@@ -40,6 +44,8 @@ impl PostView {
             created_at: post.created_at,
             is_owner,
             is_edited,
+            edited_at: post.edited_at.unwrap_or_default(),
+            previous_content: post.previous_content.unwrap_or_default(),
         }
     }
 }

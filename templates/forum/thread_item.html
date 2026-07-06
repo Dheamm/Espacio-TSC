@@ -9,8 +9,17 @@
         >{{ thread.post.alias }}</span
       >
       <span class="text-xs text-slate-400">
-        {{ thread.post.created_at }} {% if thread.post.is_edited %}· editado{%
-        endif %}
+        {{ thread.post.created_at }} {% if thread.post.is_edited %}
+        <span class="relative inline-block group">
+          <span class="cursor-help">· editado</span>
+          <div
+            class="hidden group-hover:block absolute z-20 bottom-full right-0 mb-2 w-56 max-w-[70vw] rounded-lg bg-slate-800 text-white text-xs p-2 shadow-lg text-left"
+          >
+            Editado el {{ thread.post.edited_at }}. Antes decía: {{
+            thread.post.previous_content }}
+          </div>
+        </span>
+        {% endif %}
       </span>
     </div>
     <p class="text-slate-800 text-sm leading-relaxed break-words">
