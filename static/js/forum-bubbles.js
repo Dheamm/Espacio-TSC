@@ -11,6 +11,10 @@
   let posts = [],
     active = [];
 
+  function isDarkMode() {
+    return document.documentElement.classList.contains("dark");
+  }
+
   function rand(a, b) {
     return a + Math.random() * (b - a);
   }
@@ -86,11 +90,27 @@
     );
   }
 
+  function applyTheme(dark) {
+    for (const el of active) {
+      Object.assign(el.style, {
+        background: dark ? "rgba(30,41,59,0.95)" : "rgba(255,255,255,0.95)",
+        border: dark ? "1px solid #475569" : "1px solid #c7d2fe",
+      });
+      const aliasEl = el.children[0];
+      const contentEl = el.children[1];
+      if (aliasEl) aliasEl.style.color = dark ? "#93a5fb" : "#3448d3";
+      if (contentEl) contentEl.style.color = dark ? "#cbd5e1" : "#475569";
+    }
+  }
+
+  document.addEventListener("themechange", (e) => applyTheme(e.detail.isDark));
+
   function spawn() {
     if (!posts.length || active.length >= MAX) return;
     const pos = findPos();
     if (!pos) return;
 
+    const dark = isDarkMode();
     const p = posts[Math.floor(Math.random() * posts.length)];
     const el = document.createElement("div");
     el.dataset.x = pos.x;
@@ -104,14 +124,16 @@
       transition: "opacity 1s ease",
       zIndex: "2",
       pointerEvents: "auto",
-      background: "rgba(255,255,255,0.95)",
-      border: "1px solid #c7d2fe",
+      background: dark ? "rgba(30,41,59,0.95)" : "rgba(255,255,255,0.95)",
+      border: dark ? "1px solid #475569" : "1px solid #c7d2fe",
       borderRadius: "12px",
       padding: "8px 12px",
       boxShadow: "0 2px 8px rgba(52,72,211,0.10)",
       cursor: "default",
     });
-    el.innerHTML = `<div style="font-size:11px;font-weight:700;color:#3448d3;margin-bottom:3px;">${p.alias}</div><div style="font-size:11px;color:#475569;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.content}</div>`;
+    const aliasColor = dark ? "#93a5fb" : "#3448d3";
+    const contentColor = dark ? "#cbd5e1" : "#475569";
+    el.innerHTML = `<div style="font-size:11px;font-weight:700;color:${aliasColor};margin-bottom:3px;">${p.alias}</div><div style="font-size:11px;color:${contentColor};line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.content}</div>`;
 
     el.onmouseenter = () => {
       el._hover = true;

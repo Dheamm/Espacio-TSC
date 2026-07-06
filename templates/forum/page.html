@@ -1,24 +1,30 @@
-{% extends "base.html" %} {% block title %}Foro Clínico - Espacio TSC{% endblock
+{% extends "base.html" %} {% block title %}Foro Clínico — Espacio TSC{% endblock
 %} {% block content %}
 <div class="mb-6 flex items-start justify-between gap-4">
   <div>
-    <h1 class="font-display text-3xl font-bold text-tsc-900 mb-1">
+    <h1
+      class="font-display text-3xl font-bold text-tsc-900 mb-1 dark:text-white"
+    >
       Foro Clínico Anónimo
     </h1>
-    <p class="text-slate-500 text-sm">
+    <p class="text-slate-500 text-sm dark:text-slate-400">
       Todas las publicaciones son anónimas. Se te asigna un alias
       automáticamente.
     </p>
   </div>
   <a
     href="/foro/mis-publicaciones"
-    class="text-sm font-semibold text-tsc-600 hover:text-tsc-800 whitespace-nowrap pt-1"
+    class="text-sm font-semibold text-tsc-600 hover:text-tsc-800 whitespace-nowrap pt-1 dark:text-tsc-400 dark:hover:text-tsc-300"
     >Mis publicaciones</a
   >
 </div>
 
-<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-8">
-  <h2 class="font-semibold text-slate-700 mb-4 text-sm uppercase tracking-wide">
+<div
+  class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-8 dark:bg-slate-800 dark:border-slate-700"
+>
+  <h2
+    class="font-semibold text-slate-700 mb-4 text-sm uppercase tracking-wide dark:text-slate-300"
+  >
     Nueva publicación
   </h2>
   <form
@@ -35,7 +41,7 @@
       maxlength="1000"
       rows="3"
       placeholder="Comparte algo que estés viviendo en tu práctica... (máx. 1000 caracteres)"
-      class="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-tsc-300 focus:border-transparent placeholder-slate-400"
+      class="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-tsc-300 focus:border-transparent placeholder-slate-400 dark:bg-slate-900 dark:border-slate-600 dark:text-slate-100 dark:placeholder-slate-500"
     ></textarea>
     <div class="flex items-center gap-3">
       <button
@@ -44,7 +50,9 @@
       >
         Publicar anónimamente
       </button>
-      <span id="post-spinner" class="htmx-indicator text-xs text-slate-400"
+      <span
+        id="post-spinner"
+        class="htmx-indicator text-xs text-slate-400 dark:text-slate-500"
         >Publicando...</span
       >
     </div>
@@ -52,7 +60,7 @@
 </div>
 
 {% if threads.is_empty() %}
-<div class="text-center py-16 text-slate-400">
+<div class="text-center py-16 text-slate-400 dark:text-slate-500">
   <p class="font-medium">Aún no hay publicaciones.</p>
   <p class="text-sm mt-1">Sé el primero en compartir algo.</p>
 </div>

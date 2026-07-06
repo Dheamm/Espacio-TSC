@@ -1,19 +1,19 @@
 <div
-  class="bg-white rounded-2xl border border-slate-200 shadow-sm fade-in"
+  class="bg-white rounded-2xl border border-slate-200 shadow-sm fade-in dark:bg-slate-800 dark:border-slate-700"
   id="thread-{{ thread.post.id }}"
 >
   <div class="p-5" id="post-body-{{ thread.post.id }}">
     <div class="flex items-center justify-between mb-3">
       <span
-        class="text-xs font-semibold text-tsc-600 bg-tsc-50 px-2.5 py-1 rounded-full"
+        class="text-xs font-semibold text-tsc-600 bg-tsc-50 px-2.5 py-1 rounded-full dark:text-tsc-300 dark:bg-tsc-900/40"
         >{{ thread.post.alias }}</span
       >
-      <span class="text-xs text-slate-400">
+      <span class="text-xs text-slate-400 dark:text-slate-500">
         {{ thread.post.created_at }} {% if thread.post.is_edited %}
         <span class="relative inline-block group">
           <span class="cursor-help">· editado</span>
           <div
-            class="hidden group-hover:block absolute z-20 bottom-full right-0 mb-2 w-56 max-w-[70vw] rounded-lg bg-slate-800 text-white text-xs p-2 shadow-lg text-left"
+            class="hidden group-hover:block absolute z-20 bottom-full right-0 mb-2 w-56 max-w-[70vw] rounded-lg bg-slate-800 text-white text-xs p-2 shadow-lg text-left dark:bg-slate-700"
           >
             Editado el {{ thread.post.edited_at }}. Antes decía: {{
             thread.post.previous_content }}
@@ -22,7 +22,9 @@
         {% endif %}
       </span>
     </div>
-    <p class="text-slate-800 text-sm leading-relaxed break-words">
+    <p
+      class="text-slate-800 text-sm leading-relaxed break-words dark:text-slate-200"
+    >
       {{ thread.post.content }}
     </p>
     {% if thread.post.is_owner %}
@@ -31,7 +33,7 @@
         hx-get="/foro/post/{{ thread.post.id }}/editar"
         hx-target="#post-body-{{ thread.post.id }}"
         hx-swap="outerHTML"
-        class="text-xs font-semibold text-tsc-600 hover:text-tsc-800"
+        class="text-xs font-semibold text-tsc-600 hover:text-tsc-800 dark:text-tsc-400 dark:hover:text-tsc-300"
       >
         Editar
       </button>
@@ -40,7 +42,7 @@
         hx-target="#thread-{{ thread.post.id }}"
         hx-swap="delete"
         hx-confirm="¿Seguro que quieres eliminar esta publicación?"
-        class="text-xs font-semibold text-red-500 hover:text-red-700"
+        class="text-xs font-semibold text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
       >
         Eliminar
       </button>
@@ -51,7 +53,7 @@
   {% if !thread.replies.is_empty() %}
   <div
     id="replies-{{ thread.post.id }}"
-    class="border-t border-slate-100 bg-slate-50 rounded-b-2xl px-5 py-4 space-y-4"
+    class="border-t border-slate-100 bg-slate-50 rounded-b-2xl px-5 py-4 space-y-4 dark:border-slate-700 dark:bg-slate-900/40"
   >
     {% for reply in thread.replies %} {% include "forum/reply_item.html" %} {%
     endfor %}
@@ -59,7 +61,7 @@
   {% else %}
   <div
     id="replies-{{ thread.post.id }}"
-    class="border-t border-slate-100 bg-slate-50 rounded-b-2xl px-5 py-3 space-y-4"
+    class="border-t border-slate-100 bg-slate-50 rounded-b-2xl px-5 py-3 space-y-4 dark:border-slate-700 dark:bg-slate-900/40"
   ></div>
   {% endif %}
 
@@ -79,17 +81,17 @@
         required
         maxlength="1000"
         placeholder="Responder anónimamente..."
-        class="flex-1 text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-tsc-300 placeholder-slate-400"
+        class="flex-1 text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-tsc-300 placeholder-slate-400 dark:bg-slate-900 dark:border-slate-600 dark:text-slate-100 dark:placeholder-slate-500"
       />
       <button
         type="submit"
-        class="text-sm font-semibold text-tsc-600 hover:text-tsc-800 px-3 py-2 rounded-lg hover:bg-tsc-50 transition-colors whitespace-nowrap"
+        class="text-sm font-semibold text-tsc-600 hover:text-tsc-800 px-3 py-2 rounded-lg hover:bg-tsc-50 transition-colors whitespace-nowrap dark:text-tsc-400 dark:hover:bg-slate-700"
       >
         Responder
       </button>
       <span
         id="reply-spinner-{{ thread.post.id }}"
-        class="htmx-indicator text-xs text-slate-400 self-center"
+        class="htmx-indicator text-xs text-slate-400 self-center dark:text-slate-500"
         >...</span
       >
     </form>

@@ -1,12 +1,23 @@
-<div id="mood-section" class="bg-white rounded-2xl border border-tsc-200 shadow-sm p-8 mb-10 fade-in text-center">
-    <img src="{{ icon }}" alt="{{ label }}" class="w-16 h-16 mx-auto mb-4" />
-    <h3 class="text-xl font-semibold text-tsc-800 mb-2">Registro guardado</h3>
-    <p class="text-slate-600 text-sm">
-        Registraste que hoy te sientes <strong class="text-tsc-700">{{ label }}</strong>.
-        Gracias por tomarte un momento para notarlo.
-    </p>
-    <p class="text-xs text-slate-400 mt-4">Recuerda: cuidarte es parte del trabajo.</p>
-    <a href="/mood/historial" class="inline-block mt-4 text-xs font-semibold text-tsc-600 hover:text-tsc-800">
-        Ver mi historial completo
-    </a>
+<div
+  id="mood-section"
+  class="bg-white rounded-2xl border border-tsc-200 shadow-sm p-8 mb-10 fade-in text-center dark:bg-slate-800 dark:border-tsc-800"
+>
+  <img src="{{ icon }}" alt="{{ label }}" class="w-16 h-16 mx-auto mb-4" />
+  <h3 class="text-xl font-semibold text-tsc-800 mb-2 dark:text-tsc-300">
+    Registro guardado
+  </h3>
+  <p class="text-slate-600 text-sm dark:text-slate-300">
+    Registraste que hoy te sientes
+    <strong class="text-tsc-700 dark:text-tsc-300">{{ label }}</strong>. Gracias
+    por tomarte un momento para notarlo.
+  </p>
+  <p class="text-xs text-slate-400 mt-4 dark:text-slate-500">
+    Recuerda: cuidarte es parte del trabajo.
+  </p>
+  <a
+    href="/mood/historial"
+    class="inline-block mt-4 text-xs font-semibold text-tsc-600 hover:text-tsc-800 dark:text-tsc-400 dark:hover:text-tsc-300"
+  >
+    Ver mi historial completo
+  </a>
 </div>

@@ -1,10 +1,10 @@
-{% extends "base.html" %} {% block title %}Recursos - Espacio TSC{% endblock %}
+{% extends "base.html" %} {% block title %}Recursos — Espacio TSC{% endblock %}
 {% block content %}
 <div class="mb-6">
-  <h1 class="font-display text-3xl font-bold text-tsc-900 mb-1">
+  <h1 class="font-display text-3xl font-bold text-tsc-900 mb-1 dark:text-white">
     Repositorio de Recursos
   </h1>
-  <p class="text-slate-500 text-sm">
+  <p class="text-slate-500 text-sm dark:text-slate-400">
     Documentos, guías y formatos organizados por área clínica.
   </p>
 </div>
@@ -15,7 +15,7 @@
   hx-swap="innerHTML"
   hx-trigger="change from:#category-filter, input changed delay:400ms from:#search-input"
   hx-indicator="#search-spinner"
-  class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-6 space-y-3"
+  class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-6 space-y-3 dark:bg-slate-800 dark:border-slate-700"
 >
   <div class="flex gap-3">
     <div class="flex-1 relative">
@@ -25,12 +25,12 @@
         name="q"
         value="{{ query }}"
         placeholder="Buscar por título..."
-        class="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-tsc-300 placeholder-slate-400"
+        class="w-full pl-9 pr-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-tsc-300 placeholder-slate-400 dark:bg-slate-900 dark:border-slate-600 dark:text-slate-100 dark:placeholder-slate-500"
       />
     </div>
     <span
       id="search-spinner"
-      class="htmx-indicator text-xs text-slate-400 self-center"
+      class="htmx-indicator text-xs text-slate-400 self-center dark:text-slate-500"
       >Buscando...</span
     >
   </div>
@@ -50,7 +50,7 @@
         %}
       />
       <span
-        class="inline-block text-xs font-medium px-3 py-1.5 rounded-full border border-slate-200 peer-checked:bg-tsc-600 peer-checked:text-white peer-checked:border-tsc-600 hover:border-tsc-400 transition-colors cursor-pointer"
+        class="inline-block text-xs font-medium px-3 py-1.5 rounded-full border border-slate-200 peer-checked:bg-tsc-600 peer-checked:text-white peer-checked:border-tsc-600 hover:border-tsc-400 transition-colors cursor-pointer dark:border-slate-600 dark:text-slate-300 dark:hover:border-tsc-500"
       >
         Todos
       </span>
@@ -70,7 +70,7 @@
         %}
       />
       <span
-        class="inline-block text-xs font-medium px-3 py-1.5 rounded-full border border-slate-200 peer-checked:bg-tsc-600 peer-checked:text-white peer-checked:border-tsc-600 hover:border-tsc-400 transition-colors cursor-pointer"
+        class="inline-block text-xs font-medium px-3 py-1.5 rounded-full border border-slate-200 peer-checked:bg-tsc-600 peer-checked:text-white peer-checked:border-tsc-600 hover:border-tsc-400 transition-colors cursor-pointer dark:border-slate-600 dark:text-slate-300 dark:hover:border-tsc-500"
       >
         {{ cat }}
       </span>
