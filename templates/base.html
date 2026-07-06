@@ -100,19 +100,21 @@
       class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 dark:bg-slate-900 dark:border-slate-800"
     >
       <nav
-        class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between"
+        class="max-w-5xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-2"
       >
         <a
           href="/"
-          class="flex items-center gap-2 font-display font-bold text-tsc-700 text-xl tracking-tight dark:text-tsc-300"
+          class="flex items-center gap-1.5 sm:gap-2 font-display font-bold text-tsc-700 text-base sm:text-xl tracking-tight dark:text-tsc-300 shrink-0"
         >
           <span>Espacio TSC</span>
         </a>
-        <ul class="flex items-center gap-1 text-sm font-medium">
+        <ul
+          class="flex items-center gap-0.5 sm:gap-1 text-xs sm:text-sm font-medium"
+        >
           <li>
             <a
               href="/"
-              class="px-3 py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
+              class="block px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
             >
               Inicio
             </a>
@@ -120,28 +122,29 @@
           <li>
             <a
               href="/foro"
-              class="px-3 py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
+              class="block px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
             >
-              Foro Clínico
+              <span class="sm:hidden">Foro</span>
+              <span class="hidden sm:inline">Foro Clínico</span>
             </a>
           </li>
           <li>
             <a
               href="/recursos"
-              class="px-3 py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
+              class="block px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
             >
               Recursos
             </a>
           </li>
-          <li>
+          <li class="shrink-0">
             <button
               id="theme-toggle"
               type="button"
               aria-label="Cambiar tema"
-              class="p-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
+              class="p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-tsc-700 hover:bg-tsc-50 transition-colors dark:text-slate-300 dark:hover:text-tsc-300 dark:hover:bg-slate-800"
             >
               <svg
-                class="w-5 h-5 dark:hidden"
+                class="w-4 h-4 sm:w-5 sm:h-5 dark:hidden"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -154,7 +157,7 @@
                 />
               </svg>
               <svg
-                class="w-5 h-5 hidden dark:block"
+                class="w-4 h-4 sm:w-5 sm:h-5 hidden dark:block"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
