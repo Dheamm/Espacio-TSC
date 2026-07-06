@@ -1,0 +1,6 @@
+target
+tsc.db
+tsc.db-shm
+tsc.db-wal
+.git
+.env
